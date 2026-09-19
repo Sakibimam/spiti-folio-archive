@@ -4,13 +4,16 @@
   "private": true,
   "type": "module",
   "description": "Publish a manuscript archive to Swarm behind a stable feed address that outlives the app, the grant and the publisher.",
-  "engines": { "node": ">=20.12" },
+  "engines": {
+    "node": ">=20.12"
+  },
   "scripts": {
     "init": "tsx src/init.ts",
     "publish": "tsx src/publish.ts",
     "recover": "tsx src/recover.ts",
     "status": "tsx src/status.ts",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "extend": "tsx src/extend.ts"
   },
   "dependencies": {
     "@ethersphere/bee-js": "13.1.0"

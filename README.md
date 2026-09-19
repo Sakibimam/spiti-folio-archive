@@ -137,6 +137,24 @@ Which does, in order:
 npm run status
 ```
 
+### 5. Keep it alive
+
+The story behind this project is an invoice nobody renewed. A tool that can only
+publish, never renew, recreates that failure with extra steps — so topping up is
+a first-class command:
+
+```bash
+npm run extend -- --days 7           # extend by a week
+npm run extend -- --max              # spend the wallet down to whatever fits
+npm run extend -- --days 7 --dry-run # price it without spending
+```
+
+It prices the extension from the node at the live storage rate, refuses what the
+wallet cannot cover and names the number of days it *can*, and then waits for
+Gnosis to confirm before reporting — because the node returns the old TTL for a
+minute after the transaction is accepted, which makes a successful top-up look
+like a no-op.
+
 ---
 
 ## How long is this actually paid for?
@@ -151,11 +169,8 @@ generated `STATUS.md`, and `index.json` *inside the uploaded collection* — so
 the expiry travels with the data and a reader in five years learns it from the
 archive itself, not from this repo.
 
-Nothing about the lifetime is hardcoded. To extend it:
-
-```bash
-swarm-cli stamp topup <batch-id> --amount <plur>
-```
+Nothing about the lifetime is hardcoded. To extend it, use `npm run extend`
+(above) — no second tool required.
 
 ### Why a mutable batch
 
@@ -199,6 +214,7 @@ guard their reads too, and report "no updates yet" instead of crashing.
 | `src/publish.ts` | Buy/reuse batch → upload → resolve index → write feed |
 | `src/recover.ts` | **Stateless recovery from published identifiers only** |
 | `src/status.ts` | Live batch lifetime from the node |
+| `src/extend.ts` | Top up the batch — renew the invoice before it lapses |
 | `src/init.ts` | Creates the identity, writes the tracked address files |
 | `src/inventory.ts` | Builds the in-collection `index.json` |
 | `src/bee.ts` | Client + ultra-light/light preflight |

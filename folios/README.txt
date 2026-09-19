@@ -17,6 +17,3 @@ Contents
 
 index.json is written into the collection at publish time. It is what lets a
 stranger enumerate the archive without any local state.
-
---- UPDATE (second publish) ---
-A new folio was added after the first publish. The feed address did not change.
