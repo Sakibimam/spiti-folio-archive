@@ -13,16 +13,17 @@ import {
 import { makeBee, preflight } from './bee.js'
 import { loadPrivateKey, ownerAddress } from './identity.js'
 import { buildInventory, writeInventory } from './inventory.js'
+import { INVENTORY_FILENAME } from './config.js'
 import {
+  ARCHIVE_DESCRIPTION,
+  ARCHIVE_TITLE,
   BATCH_ID_FROM_ENV,
-  BEE_API_URL,
   FEED_TOPIC_STRING,
   FOLIOS_DIR,
+  POSTAGE,
   PUBLIC_GATEWAY,
   REPO_ROOT,
 } from './config.js'
-
-const MIN_ACCEPTABLE_DAYS = 1
 
 /** Pick an existing usable batch, or buy one. */
 async function resolveBatch(bee: Bee): Promise<PostageBatch> {
@@ -34,7 +35,12 @@ async function resolveBatch(bee: Bee): Promise<PostageBatch> {
 
   const existing = await bee.stamp.getAll()
   const reusable = existing
-    .filter((b) => b.usable && b.duration.toDays() > MIN_ACCEPTABLE_DAYS && b.remainingSize.toBytes() > 0)
+    .filter(
+      (b) =>
+        b.usable &&
+        b.duration.toDays() > POSTAGE.minAcceptableDaysToReuse &&
+        b.remainingSize.toBytes() > 0,
+    )
     .sort((a, b) => b.duration.toSeconds() - a.duration.toSeconds())[0]
 
   if (reusable) {
@@ -42,13 +48,21 @@ async function resolveBatch(bee: Bee): Promise<PostageBatch> {
     return reusable
   }
 
-  console.log('  No usable batch found. Buying one (1 GB / 7 days)...')
-  const batchId: BatchId = await bee.storage.buy(Size.fromGigabytes(1), Duration.fromDays(7), {
-    label: 'spiti-folio-archive',
-    // Mutable: feeds are republished repeatedly, and an immutable batch becomes
-    // unusable once its buckets fill. See README "Why a mutable batch".
-    immutableFlag: false,
-  })
+  console.log(
+    `  No usable batch found. Buying one ` +
+      `(${POSTAGE.sizeGigabytes} GB / ${POSTAGE.durationDays} days, ` +
+      `${POSTAGE.immutable ? 'immutable' : 'mutable'})...`,
+  )
+  const batchId: BatchId = await bee.storage.buy(
+    Size.fromGigabytes(POSTAGE.sizeGigabytes),
+    Duration.fromDays(POSTAGE.durationDays),
+    {
+      label: POSTAGE.label,
+      // Mutable by default: feeds are republished repeatedly, and an immutable
+      // batch becomes unusable once its buckets fill. See README.
+      immutableFlag: POSTAGE.immutable,
+    },
+  )
   console.log(`  Bought batch ${batchId.toHex()}. Waiting for it to become usable...`)
   return await bee.stamp.get(batchId)
 }
@@ -120,10 +134,8 @@ async function main(): Promise<void> {
   // ── 1. Upload the archive contents as their own collection ───────────────
   console.log('\nUploading archive contents')
   const inventory = buildInventory(FOLIOS_DIR, {
-    title: 'Spiti Valley birch-bark folio scans',
-    description:
-      'Photographic record of Bhojpatra scrolls, palm-leaf folios and a medical ' +
-      'compendium held in a stone vault above the Spiti valley.',
+    title: ARCHIVE_TITLE,
+    description: ARCHIVE_DESCRIPTION,
     publishedAt: new Date().toISOString(),
     storage: {
       batchId: batch.batchID.toHex(),
@@ -140,7 +152,7 @@ async function main(): Promise<void> {
   const uploaded = await bee.collection.uploadFromDirectory(batch.batchID, FOLIOS_DIR, {
     pin: true,
     deferred: false,
-    indexDocument: 'index.json',
+    indexDocument: INVENTORY_FILENAME,
   })
   const collectionReference: Reference = uploaded.reference
   console.log(`  Collection reference: ${collectionReference.toHex()}`)
@@ -168,7 +180,7 @@ async function main(): Promise<void> {
 
   // ── 4. Publish the identifiers into tracked files ───────────────────────
   const record = {
-    archive: 'Spiti Valley birch-bark folio scans',
+    archive: ARCHIVE_TITLE,
     feed: {
       owner: owner.toHex(),
       topicString: FEED_TOPIC_STRING,

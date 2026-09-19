@@ -7,7 +7,13 @@ import { writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { Topic } from '@ethersphere/bee-js'
 import { createPrivateKey, hasIdentity, loadPrivateKey, ownerAddress } from './identity.js'
-import { FEED_TOPIC_STRING, PUBLIC_GATEWAY, PUBLISHER_KEY_FILE, REPO_ROOT } from './config.js'
+import {
+  ARCHIVE_TITLE,
+  FEED_TOPIC_STRING,
+  PUBLIC_GATEWAY,
+  PUBLISHER_KEY_FILE,
+  REPO_ROOT,
+} from './config.js'
 
 function main(): void {
   const created = !hasIdentity()
@@ -75,7 +81,7 @@ stops being updatable, which is the correct failure mode for an archive.
     resolve(REPO_ROOT, 'archive.json'),
     JSON.stringify(
       {
-        archive: 'Spiti Valley birch-bark folio scans',
+        archive: ARCHIVE_TITLE,
         feed: {
           owner: owner.toHex(),
           topicString: FEED_TOPIC_STRING,

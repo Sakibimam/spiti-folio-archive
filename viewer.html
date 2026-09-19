@@ -59,15 +59,15 @@
 
 <form id="f">
   <div><label for="gw">Bee endpoint or gateway</label>
-    <input id="gw" value="https://api.gateway.ethswarm.org"></div>
+    <input id="gw" placeholder="https://api.gateway.ethswarm.org"></div>
   <div><label for="owner">Feed owner</label>
-    <input id="owner" value="da99a7d6955e279a45758141990fde3102719ca1"></div>
-  <div><label for="topic">Topic (hex)</label>
-    <input id="topic" value="6b40a2f9f41706c4a970ab110d94445e03833d888184bb61cee98320891d90e0"></div>
+    <input id="owner" placeholder="0x…"></div>
+  <div><label for="topic">Topic (hex, or the topic string)</label>
+    <input id="topic" placeholder="topic"></div>
   <div><button id="go" type="submit">Resolve archive</button></div>
 </form>
 
-<p class="status" id="status">Press “Resolve archive” to read the feed.</p>
+<p class="status" id="status">Loading published identifiers…</p>
 <div id="out" hidden>
   <div class="banner" id="ttl">
     <h2>How long this data is paid for</h2>
@@ -92,6 +92,30 @@
 
 <script>
 const $ = (id) => document.getElementById(id);
+
+/**
+ * Identifiers are NOT hardcoded here. They are read from archive.json, the same
+ * tracked file the publisher writes, so this page never carries a stale copy of
+ * an address. Paste any other owner/topic in by hand to read a different archive.
+ */
+async function loadDefaults() {
+  try {
+    const cfg = await (await fetch("./archive.json", { cache: "no-store" })).json();
+    $("gw").value = (cfg.read && cfg.read.gateway ? new URL(cfg.read.gateway).origin : "") ||
+                    "https://api.gateway.ethswarm.org";
+    $("owner").value = (cfg.feed && cfg.feed.owner) || "";
+    $("topic").value = (cfg.feed && (cfg.feed.topicHex || cfg.feed.topicString)) || "";
+    $("status").textContent = cfg.feed && cfg.feed.owner
+      ? "Press \u201cResolve archive\u201d to read the feed."
+      : "archive.json has no owner yet \u2014 run `npm run init`.";
+  } catch {
+    $("gw").value = "https://api.gateway.ethswarm.org";
+    $("status").textContent =
+      "Could not read archive.json (open this page over http, not file://). " +
+      "Enter an owner and topic by hand.";
+  }
+}
+loadDefaults();
 const fmt = (n) => n < 1024 ? n + " B"
   : n < 1048576 ? (n/1024).toFixed(1) + " KB" : (n/1048576).toFixed(1) + " MB";
 

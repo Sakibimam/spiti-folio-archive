@@ -1,0 +1,20 @@
+{
+  "$comment": "Tracked, non-secret configuration. Everything a reader or a future maintainer needs to know about this archive lives here rather than being hardcoded in source. Environment variables of the same name override each value at runtime.",
+
+  "title": "Spiti Valley birch-bark folio scans",
+  "description": "Photographic record of Bhojpatra scrolls, palm-leaf folios and a medical compendium held in a stone vault above the Spiti valley.",
+
+  "feedTopic": "spiti-folio-archive-v1",
+
+  "sourceDirectory": "folios",
+
+  "postage": {
+    "sizeGigabytes": 1,
+    "durationDays": 7,
+    "immutable": false,
+    "label": "spiti-folio-archive",
+    "minAcceptableDaysToReuse": 1
+  },
+
+  "publicGateway": "https://api.gateway.ethswarm.org"
+}

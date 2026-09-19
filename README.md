@@ -13,12 +13,9 @@ copy of this app.
 ## The address
 
 Everything a stranger needs is in **[ARCHIVE.md](./ARCHIVE.md)** and
-**[archive.json](./archive.json)**, both committed to this repo:
-
-| | |
-|---|---|
-| Owner address | `da99a7d6955e279a45758141990fde3102719ca1` |
-| Topic | `spiti-folio-archive-v1` |
+**[archive.json](./archive.json)**, both committed to this repo: a **feed owner
+address** and a **topic**. Both are written there by `npm run init`, and neither
+changes again.
 
 That pair is the archive. Republish the folios a hundred times and the pair is
 unchanged; only the content hash behind it moves.
@@ -31,11 +28,13 @@ gateway if you have none:
 ```bash
 npm install
 npm run recover -- \
-  --owner da99a7d6955e279a45758141990fde3102719ca1 \
-  --topic "spiti-folio-archive-v1" \
-  --bee https://api.gateway.ethswarm.org \
-  --out ./restored
+  --owner  <owner address from ARCHIVE.md> \
+  --topic  "<topic from ARCHIVE.md>" \
+  --bee    https://api.gateway.ethswarm.org \
+  --out    ./restored
 ```
+
+`ARCHIVE.md` carries the exact command with this archive's values filled in.
 
 `src/recover.ts` reads no local index, no database, no state file, and never
 touches `archive.json`. It resolves the feed, walks the collection's Mantaray
@@ -65,6 +64,13 @@ batch. `npm run status` will tell you which mode you are in and refuse to
 continue from ultra-light rather than failing obscurely mid-upload.
 
 ### 2. Configure
+
+Archive settings live in **[archive.config.json](./archive.config.json)** — the
+topic, the title, the source directory, and the postage batch size and duration.
+It is committed on purpose: a reader has to be able to rederive the topic from
+this repository alone, and a value that lived only in an untracked `.env` would
+die with the publisher's laptop. Any field can be overridden by an environment
+variable of the same name for local experiments.
 
 ```bash
 cp .env.example .env    # defaults are fine for a local Swarm Desktop node
@@ -160,6 +166,7 @@ guard their reads too, and report "no updates yet" instead of crashing.
 | `src/init.ts` | Creates the identity, writes the tracked address files |
 | `src/inventory.ts` | Builds the in-collection `index.json` |
 | `src/bee.ts` | Client + ultra-light/light preflight |
+| `archive.config.json` | **Tracked** — topic, title, batch size/duration. Nothing is hardcoded in source |
 | `ARCHIVE.md` | **Tracked** — owner address + topic |
 | `archive.json` | **Tracked** — machine-readable identifiers |
 | `STATUS.md` | Generated — honest expiry report |

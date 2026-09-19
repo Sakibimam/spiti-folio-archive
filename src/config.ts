@@ -23,23 +23,65 @@ function loadEnvFile(): void {
 }
 loadEnvFile()
 
+interface ArchiveConfigFile {
+  title: string
+  description: string
+  feedTopic: string
+  sourceDirectory: string
+  postage: {
+    sizeGigabytes: number
+    durationDays: number
+    immutable: boolean
+    label: string
+    minAcceptableDaysToReuse: number
+  }
+  publicGateway: string
+}
+
+/**
+ * Archive settings live in a TRACKED json file, not in source and not in .env.
+ *
+ * That placement is deliberate. The topic in particular has to be committed:
+ * a reader must be able to rederive it from the repository alone, and a value
+ * that existed only in an untracked env file would die with the publisher's
+ * laptop — the exact failure this project exists to prevent. Environment
+ * variables may override any of it for local experiments.
+ */
+const CONFIG_PATH = resolve(REPO_ROOT, 'archive.config.json')
+const file = JSON.parse(readFileSync(CONFIG_PATH, 'utf8')) as ArchiveConfigFile
+
+const num = (value: string | undefined, fallback: number): number => {
+  const parsed = Number(value)
+  return value !== undefined && Number.isFinite(parsed) ? parsed : fallback
+}
+
 export const BEE_API_URL = process.env.BEE_API_URL ?? 'http://localhost:1633'
-export const PUBLIC_GATEWAY = process.env.PUBLIC_GATEWAY ?? 'https://api.gateway.ethswarm.org'
+export const PUBLIC_GATEWAY = process.env.PUBLIC_GATEWAY ?? file.publicGateway
 export const PUBLISHER_KEY_FILE = resolve(REPO_ROOT, process.env.PUBLISHER_KEY_FILE ?? './publisher.key')
 export const BATCH_ID_FROM_ENV = process.env.BATCH_ID?.trim() || undefined
 
+export const ARCHIVE_TITLE = process.env.ARCHIVE_TITLE ?? file.title
+export const ARCHIVE_DESCRIPTION = process.env.ARCHIVE_DESCRIPTION ?? file.description
+
 /**
- * The feed topic is a CONSTANT, derived by keccak256 from this exact string.
- *
- * It is deliberately hardcoded and committed rather than randomly generated,
- * because a reader must be able to rederive it from the published documentation
- * alone: `Topic.fromString(FEED_TOPIC_STRING)`. A random topic stored only on
- * the publisher's disk would die with the publisher's disk.
+ * The feed topic. Hashed to 32 bytes with keccak256 by `Topic.fromString`,
+ * so the human-readable string is the canonical published form.
  */
-export const FEED_TOPIC_STRING = 'spiti-folio-archive-v1'
+export const FEED_TOPIC_STRING = process.env.FEED_TOPIC ?? file.feedTopic
 
 /** Directory whose contents are published as the archive. */
-export const FOLIOS_DIR = resolve(REPO_ROOT, 'folios')
+export const FOLIOS_DIR = resolve(REPO_ROOT, process.env.SOURCE_DIR ?? file.sourceDirectory)
+
+export const POSTAGE = {
+  sizeGigabytes: num(process.env.BATCH_SIZE_GB, file.postage.sizeGigabytes),
+  durationDays: num(process.env.BATCH_DURATION_DAYS, file.postage.durationDays),
+  immutable: process.env.BATCH_IMMUTABLE ? process.env.BATCH_IMMUTABLE === 'true' : file.postage.immutable,
+  label: process.env.BATCH_LABEL ?? file.postage.label,
+  minAcceptableDaysToReuse: num(
+    process.env.BATCH_MIN_DAYS,
+    file.postage.minAcceptableDaysToReuse,
+  ),
+}
 
 /** Filename of the inventory written *inside* the uploaded collection. */
 export const INVENTORY_FILENAME = 'index.json'
