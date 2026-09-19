@@ -1,5 +1,5 @@
-import { writeFileSync } from 'node:fs'
-import { resolve } from 'node:path'
+import { copyFileSync, writeFileSync } from 'node:fs'
+import { join, resolve } from 'node:path'
 import {
   Bee,
   BatchId,
@@ -13,7 +13,7 @@ import {
 import { makeBee, preflight } from './bee.js'
 import { loadPrivateKey, ownerAddress } from './identity.js'
 import { buildInventory, writeInventory } from './inventory.js'
-import { INVENTORY_FILENAME } from './config.js'
+import { INVENTORY_FILENAME, VIEWER_FILENAME, VIEWER_SOURCE } from './config.js'
 import {
   ARCHIVE_DESCRIPTION,
   ARCHIVE_TITLE,
@@ -48,21 +48,40 @@ async function resolveBatch(bee: Bee): Promise<PostageBatch> {
     return reusable
   }
 
+  const size = Size.fromGigabytes(POSTAGE.sizeGigabytes)
+  const duration = Duration.fromDays(POSTAGE.durationDays)
+
+  // Check the price against the wallet BEFORE spending. A batch that cannot be
+  // afforded fails deep inside the node with an opaque error; this turns that
+  // into a sentence that says what to change.
+  const cost = await bee.storage.getCost(size, duration)
+  const wallet = await bee.wallet.getBalance()
+  console.log(`  Price for ${POSTAGE.sizeGigabytes} GB / ${POSTAGE.durationDays} days: ${cost.toSignificantDigits(4)} xBZZ`)
+  console.log(`  Wallet balance: ${wallet.bzzBalance.toSignificantDigits(4)} xBZZ`)
+
+  if (cost.gt(wallet.bzzBalance)) {
+    const affordableDays =
+      (POSTAGE.durationDays * Number(wallet.bzzBalance.toDecimalString())) /
+      Number(cost.toDecimalString())
+    throw new Error(
+      `Not enough xBZZ to buy this batch.\n` +
+        `  Need ${cost.toSignificantDigits(4)}, have ${wallet.bzzBalance.toSignificantDigits(4)}.\n` +
+        `  At this size the wallet affords roughly ${Math.floor(affordableDays)} days.\n` +
+        `  Lower postage.sizeGigabytes or postage.durationDays in archive.config.json,\n` +
+        `  or set BATCH_SIZE_GB / BATCH_DURATION_DAYS in .env, then run again.`,
+    )
+  }
+
   console.log(
-    `  No usable batch found. Buying one ` +
-      `(${POSTAGE.sizeGigabytes} GB / ${POSTAGE.durationDays} days, ` +
+    `  Buying (${POSTAGE.sizeGigabytes} GB / ${POSTAGE.durationDays} days, ` +
       `${POSTAGE.immutable ? 'immutable' : 'mutable'})...`,
   )
-  const batchId: BatchId = await bee.storage.buy(
-    Size.fromGigabytes(POSTAGE.sizeGigabytes),
-    Duration.fromDays(POSTAGE.durationDays),
-    {
-      label: POSTAGE.label,
-      // Mutable by default: feeds are republished repeatedly, and an immutable
-      // batch becomes unusable once its buckets fill. See README.
-      immutableFlag: POSTAGE.immutable,
-    },
-  )
+  const batchId: BatchId = await bee.storage.buy(size, duration, {
+    label: POSTAGE.label,
+    // Mutable by default: feeds are republished repeatedly, and an immutable
+    // batch becomes unusable once its buckets fill. See README.
+    immutableFlag: POSTAGE.immutable,
+  })
   console.log(`  Bought batch ${batchId.toHex()}. Waiting for it to become usable...`)
   return await bee.stamp.get(batchId)
 }
@@ -131,11 +150,24 @@ async function main(): Promise<void> {
   console.log(`  PAID UNTIL    : ${paidUntil.toISOString()}  (${daysRemaining.toFixed(1)} days from now)`)
   console.log(`  After that date this archive stops being served unless the batch is topped up.`)
 
-  // ── 1. Upload the archive contents as their own collection ───────────────
+  // ── 1. Feed manifest FIRST ───────────────────────────────────────────────
+  // It depends only on batch + topic + owner, never on the contents, so it can
+  // be created before the upload and embedded inside the archive itself.
+  const feedManifest = await bee.feed.createManifest(batch.batchID, topic, owner)
+  console.log(`\n  Feed manifest: ${feedManifest.toHex()}`)
+
+  // ── 2. Upload the archive contents as their own collection ───────────────
   console.log('\nUploading archive contents')
+  copyFileSync(VIEWER_SOURCE, join(FOLIOS_DIR, VIEWER_FILENAME))
   const inventory = buildInventory(FOLIOS_DIR, {
     title: ARCHIVE_TITLE,
     description: ARCHIVE_DESCRIPTION,
+    feed: {
+      owner: owner.toHex(),
+      topicString: FEED_TOPIC_STRING,
+      topicHex: topic.toHex(),
+      manifest: feedManifest.toHex(),
+    },
     publishedAt: new Date().toISOString(),
     storage: {
       batchId: batch.batchID.toHex(),
@@ -147,18 +179,18 @@ async function main(): Promise<void> {
     },
   })
   writeInventory(FOLIOS_DIR, inventory)
-  console.log(`  ${inventory.fileCount} files, ${inventory.totalBytes} bytes (plus index.json)`)
+  console.log(`  ${inventory.fileCount} folios, ${inventory.totalBytes} bytes (plus index.json and viewer.html)`)
 
   const uploaded = await bee.collection.uploadFromDirectory(batch.batchID, FOLIOS_DIR, {
     pin: true,
     deferred: false,
-    indexDocument: INVENTORY_FILENAME,
+    indexDocument: VIEWER_FILENAME,
   })
   const collectionReference: Reference = uploaded.reference
   console.log(`  Collection reference: ${collectionReference.toHex()}`)
   console.log('  (this hash changes every time the contents change — it is NOT the published address)')
 
-  // ── 2. Write that reference into the feed ────────────────────────────────
+  // ── 3. Write that reference into the feed ────────────────────────────────
   console.log('\nUpdating the feed')
   const nextIndex = await resolveNextIndex(bee, topic, owner)
   const writer = bee.feed.makeWriter(topic, privateKey)
@@ -173,10 +205,6 @@ async function main(): Promise<void> {
   })
   console.log(`  Wrote index ${nextIndex.toBigInt()} -> ${collectionReference.toHex()}`)
   console.log(`  Update chunk: ${update.reference.toHex()}`)
-
-  // ── 3. Feed manifest: one stable bzz address a stranger can be handed ────
-  const feedManifest = await bee.feed.createManifest(batch.batchID, topic, owner)
-  console.log(`\n  Feed manifest: ${feedManifest.toHex()}`)
 
   // ── 4. Publish the identifiers into tracked files ───────────────────────
   const record = {

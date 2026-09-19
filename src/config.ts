@@ -85,3 +85,12 @@ export const POSTAGE = {
 
 /** Filename of the inventory written *inside* the uploaded collection. */
 export const INVENTORY_FILENAME = 'index.json'
+
+/**
+ * The reader UI is uploaded WITH the archive and served as its index document,
+ * so the published address opens a browsable page rather than a hex reference.
+ * The archive carries its own interface; it does not depend on this repo, on
+ * GitHub, or on anything the publisher keeps running.
+ */
+export const VIEWER_FILENAME = 'viewer.html'
+export const VIEWER_SOURCE = resolve(REPO_ROOT, VIEWER_FILENAME)

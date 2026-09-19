@@ -42,9 +42,25 @@ manifest **from the network** to enumerate every path, and writes the files out.
 If the manifest walk is unavailable it falls back to `index.json`, an inventory
 that is uploaded *inside* the collection for exactly this purpose.
 
-There is also **[viewer.html](./viewer.html)** — a single static file, no build,
-no server. Open it in a browser and it resolves the same feed through a gateway
-and lists the archive, with an honest expiry banner at the top.
+### The archive carries its own reader
+
+`viewer.html` is **uploaded inside the collection** and set as its index
+document. So the published address is not a hex string a stranger has to know
+what to do with — it opens a browsable page listing every folio, with the expiry
+stated at the top:
+
+```
+https://api.gateway.ethswarm.org/bzz/<feed-manifest>/
+```
+
+That page detects where it is running. Served from inside the archive it reads
+the `index.json` sitting next to it and needs no gateway, no feed lookup and no
+repository. Opened from this git checkout it reads `archive.json` and resolves
+the feed over a gateway instead. Neither mode has an address hardcoded in it.
+
+This matters for the brief: "delete the app and a stranger still gets the folios
+back" should not quietly mean "…as long as GitHub is still up". The interface
+lives with the data.
 
 ---
 
@@ -87,13 +103,18 @@ npm run publish
 Which does, in order:
 
 1. Refuses to continue unless the node is out of ultra-light mode.
-2. Reuses a usable postage batch, or buys one (1 GB / 7 days).
+2. Reuses a usable postage batch, or prices a new one against the wallet and
+   buys it — refusing, with the affordable duration named, rather than failing
+   deep inside the node when the wallet is short.
 3. Reads the batch's **remaining lifetime from the node** and prints it.
-4. Builds `folios/index.json` — the inventory, with sizes and sha256 digests.
-5. Uploads `folios/` as a collection → a content reference.
-6. **Reads the feed from the network** to discover the next index.
-7. Writes the collection reference into the feed with `uploadReference`.
-8. Creates a feed manifest and writes `archive.json` + `STATUS.md`.
+4. Creates the feed manifest first — it depends only on batch, topic and owner,
+   so the archive can carry its own permanent address inside it.
+5. Builds `folios/index.json` (inventory, sizes, sha256 digests, feed address)
+   and copies `viewer.html` in beside it.
+6. Uploads `folios/` as a collection → a content reference.
+7. **Reads the feed from the network** to discover the next index.
+8. Writes the collection reference into the feed with `uploadReference`.
+9. Writes `archive.json` + `STATUS.md`.
 
 ### 4. Check what you are paying for
 

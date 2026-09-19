@@ -15,3 +15,7 @@ dist/
 restored/
 *.log
 .DS_Store
+
+# Generated into the source directory at publish time
+folios/index.json
+folios/viewer.html

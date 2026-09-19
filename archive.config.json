@@ -1,5 +1,5 @@
 {
-  "$comment": "Tracked, non-secret configuration. Everything a reader or a future maintainer needs to know about this archive lives here rather than being hardcoded in source. Environment variables of the same name override each value at runtime.",
+  "$comment": "Tracked, non-secret configuration. Batch size/duration are sized to the wallet; publish.ts prices the batch and refuses to buy what it cannot afford. Everything a reader or a future maintainer needs to know about this archive lives here rather than being hardcoded in source. Environment variables of the same name override each value at runtime.",
 
   "title": "Spiti Valley birch-bark folio scans",
   "description": "Photographic record of Bhojpatra scrolls, palm-leaf folios and a medical compendium held in a stone vault above the Spiti valley.",
@@ -9,7 +9,7 @@
   "sourceDirectory": "folios",
 
   "postage": {
-    "sizeGigabytes": 1,
+    "sizeGigabytes": 0.5,
     "durationDays": 7,
     "immutable": false,
     "label": "spiti-folio-archive",

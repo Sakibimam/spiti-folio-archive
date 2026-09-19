@@ -67,13 +67,19 @@
   <div><button id="go" type="submit">Resolve archive</button></div>
 </form>
 
-<p class="status" id="status">Loading published identifiers…</p>
+<p class="status" id="status">Loading…</p>
+<p class="status" id="modeNote"></p>
 <div id="out" hidden>
   <div class="banner" id="ttl">
     <h2>How long this data is paid for</h2>
     <p id="ttlText">—</p>
   </div>
-  <div class="banner">
+  <div class="banner" id="addrRow" hidden>
+    <h2>The permanent address of this archive</h2>
+    <p>Owner <span class="mono" id="addrOwner">—</span></p>
+    <p>Topic <span class="mono" id="addrTopic">—</span></p>
+  </div>
+  <div class="banner" id="refRow" hidden>
     <h2>Current contents</h2>
     <p class="mono" id="ref">—</p>
   </div>
@@ -92,17 +98,54 @@
 
 <script>
 const $ = (id) => document.getElementById(id);
+const fmt = (n) => n < 1024 ? n + " B"
+  : n < 1048576 ? (n/1024).toFixed(1) + " KB" : (n/1048576).toFixed(1) + " MB";
 
 /**
- * Identifiers are NOT hardcoded here. They are read from archive.json, the same
- * tracked file the publisher writes, so this page never carries a stale copy of
- * an address. Paste any other owner/topic in by hand to read a different archive.
+ * This page runs in two places and detects which without being told.
+ *
+ *  EMBEDDED  - uploaded inside the archive and served as its index document.
+ *              ./index.json sits next to it, so the contents are already here:
+ *              no feed lookup, no gateway, no repository. This is the copy a
+ *              stranger reaches from the published address.
+ *
+ *  REPOSITORY - opened from the git checkout. Reads archive.json for the
+ *              published identifiers and resolves the feed over a gateway.
+ *
+ * Nothing is hardcoded in either mode.
  */
-async function loadDefaults() {
+async function boot() {
+  try {
+    const res = await fetch("./index.json", { cache: "no-store" });
+    if (res.ok) {
+      const inv = await res.json();
+      if (inv && Array.isArray(inv.files)) return renderEmbedded(inv);
+    }
+  } catch { /* not embedded; fall through */ }
+  return bootRepository();
+}
+
+function renderEmbedded(inv) {
+  $("f").hidden = true;
+  $("modeNote").textContent =
+    "Served from Swarm, from inside the archive itself \u2014 no server and no app involved.";
+  renderTtl(inv.storage);
+  if (inv.feed) {
+    $("addrRow").hidden = false;
+    $("addrOwner").textContent = inv.feed.owner || "\u2014";
+    $("addrTopic").textContent = inv.feed.topicString || inv.feed.topicHex || "\u2014";
+  }
+  renderFiles(inv, "./");
+  $("out").hidden = false;
+  $("status").textContent =
+    `${inv.files.length} folios \u00b7 published ${(inv.publishedAt || "").slice(0,10) || "\u2014"}`;
+}
+
+async function bootRepository() {
   try {
     const cfg = await (await fetch("./archive.json", { cache: "no-store" })).json();
-    $("gw").value = (cfg.read && cfg.read.gateway ? new URL(cfg.read.gateway).origin : "") ||
-                    "https://api.gateway.ethswarm.org";
+    $("gw").value = (cfg.read && cfg.read.gateway ? new URL(cfg.read.gateway).origin : "")
+      || "https://api.gateway.ethswarm.org";
     $("owner").value = (cfg.feed && cfg.feed.owner) || "";
     $("topic").value = (cfg.feed && (cfg.feed.topicHex || cfg.feed.topicString)) || "";
     $("status").textContent = cfg.feed && cfg.feed.owner
@@ -111,20 +154,17 @@ async function loadDefaults() {
   } catch {
     $("gw").value = "https://api.gateway.ethswarm.org";
     $("status").textContent =
-      "Could not read archive.json (open this page over http, not file://). " +
-      "Enter an owner and topic by hand.";
+      "Could not read archive.json (serve this over http, not file://). "
+      + "Enter an owner and topic by hand.";
   }
 }
-loadDefaults();
-const fmt = (n) => n < 1024 ? n + " B"
-  : n < 1048576 ? (n/1024).toFixed(1) + " KB" : (n/1048576).toFixed(1) + " MB";
 
 async function resolveFeed(gw, owner, topic) {
   const url = `${gw.replace(/\/$/, "")}/feeds/${owner.replace(/^0x/, "")}/${topic.replace(/^0x/, "")}?type=sequence`;
   const res = await fetch(url);
-  if (!res.ok) throw new Error(`feed lookup failed (HTTP ${res.status}) — the feed may have no updates yet`);
+  if (!res.ok) throw new Error(`feed lookup failed (HTTP ${res.status}) \u2014 the feed may have no updates yet`);
   const body = await res.json();
-  const ref = body.reference || body.feedIndex && body.reference;
+  const ref = body.reference;
   if (!ref) throw new Error("feed responded but carried no reference");
   return typeof ref === "string" ? ref : ref.reference;
 }
@@ -134,7 +174,7 @@ function renderTtl(storage) {
   box.className = "banner";
   if (!storage || !storage.paidUntil) {
     box.classList.add("warn");
-    text.textContent = "This archive did not publish an expiry date. Treat it as unfunded.";
+    text.textContent = "This archive published no expiry date. Treat it as unfunded.";
     return;
   }
   const until = new Date(storage.paidUntil);
@@ -142,36 +182,40 @@ function renderTtl(storage) {
   box.classList.add(days <= 0 ? "bad" : days < 14 ? "warn" : "ok");
   text.textContent = days <= 0
     ? `EXPIRED on ${until.toISOString().slice(0,10)}. The postage batch is no longer funded; these chunks may already be gone.`
-    : `Paid until ${until.toISOString().slice(0,10)} — ${days.toFixed(1)} days left. After that the batch expires and this address stops resolving unless it is topped up.`;
+    : `Paid until ${until.toISOString().slice(0,10)} \u2014 ${days.toFixed(1)} days left. After that the batch expires and this address stops resolving unless it is topped up.`;
+}
+
+function renderFiles(inv, base) {
+  $("rows").innerHTML = "";
+  for (const f of inv.files || []) {
+    const tr = document.createElement("tr");
+    const a = document.createElement("a");
+    a.href = base + f.path;
+    a.textContent = f.path;
+    a.target = "_blank"; a.rel = "noopener";
+    const td = document.createElement("td"); td.appendChild(a); tr.appendChild(td);
+    const s = document.createElement("td"); s.className = "num"; s.textContent = fmt(f.bytes);
+    const h = document.createElement("td"); h.className = "num mono"; h.textContent = (f.sha256 || "").slice(0, 10);
+    tr.appendChild(s); tr.appendChild(h);
+    $("rows").appendChild(tr);
+  }
 }
 
 $("f").addEventListener("submit", async (e) => {
   e.preventDefault();
   $("go").disabled = true;
   $("out").hidden = true;
-  $("status").textContent = "Resolving feed…";
+  $("status").textContent = "Resolving feed\u2026";
   const gw = $("gw").value.trim().replace(/\/$/, "");
   try {
     const ref = await resolveFeed(gw, $("owner").value.trim(), $("topic").value.trim());
-    $("status").textContent = "Reading inventory…";
+    $("status").textContent = "Reading inventory\u2026";
     const inv = await (await fetch(`${gw}/bzz/${ref}/index.json`)).json();
     $("ref").textContent = ref;
+    $("refRow").hidden = false;
     renderTtl(inv.storage);
-    $("rows").innerHTML = "";
-    for (const f of inv.files || []) {
-      const tr = document.createElement("tr");
-      const a = document.createElement("a");
-      a.href = `${gw}/bzz/${ref}/${f.path}`;
-      a.textContent = f.path;
-      a.target = "_blank"; a.rel = "noopener";
-      const td = document.createElement("td"); td.appendChild(a);
-      tr.appendChild(td);
-      const s = document.createElement("td"); s.className = "num"; s.textContent = fmt(f.bytes);
-      const h = document.createElement("td"); h.className = "num mono"; h.textContent = (f.sha256||"").slice(0,10);
-      tr.appendChild(s); tr.appendChild(h);
-      $("rows").appendChild(tr);
-    }
-    $("status").textContent = `${(inv.files||[]).length} files, published ${inv.publishedAt || "—"}.`;
+    renderFiles(inv, `${gw}/bzz/${ref}/`);
+    $("status").textContent = `${(inv.files||[]).length} folios \u00b7 published ${(inv.publishedAt || "").slice(0,10) || "\u2014"}`;
     $("out").hidden = false;
   } catch (err) {
     $("status").textContent = "Could not read the archive: " + err.message;
@@ -179,6 +223,8 @@ $("f").addEventListener("submit", async (e) => {
     $("go").disabled = false;
   }
 });
+
+boot();
 </script>
 </body>
 </html>
