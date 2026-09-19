@@ -1,0 +1,845 @@
+CATALOGUE OF FOLIOS - SPITI VAULT
+============================================================
+
+Compiled during the photographic survey. One entry per folio.
+Condition codes: A intact, B edge loss, C insect damage, D flaking ink
+
+Folio 001r/001v
+  Support    : paper, later repair
+  Script     : Ranjana
+  Condition  : B
+  Dimensions : 34 x 11 cm
+  Photographed: 2024-11-06, window light, f/8
+
+Folio 002r/002v
+  Support    : palm leaf
+  Script     : Ranjana
+  Condition  : D
+  Dimensions : 21 x 8 cm
+  Photographed: 2024-12-05, window light, f/8
+
+Folio 003r/003v
+  Support    : paper, later repair
+  Script     : dbu-can
+  Condition  : A
+  Dimensions : 32 x 10 cm
+  Photographed: 2024-11-20, window light, f/8
+
+Folio 004r/004v
+  Support    : birch bark (bhojpatra)
+  Script     : dbu-can
+  Condition  : A
+  Dimensions : 19 x 6 cm
+  Photographed: 2024-11-20, window light, f/8
+
+Folio 005r/005v
+  Support    : birch bark, laminated
+  Script     : Ranjana
+  Condition  : A
+  Dimensions : 32 x 9 cm
+  Photographed: 2024-11-17, window light, f/8
+
+Folio 006r/006v
+  Support    : paper, later repair
+  Script     : 'khyug-yig
+  Condition  : A
+  Dimensions : 18 x 10 cm
+  Photographed: 2024-11-15, window light, f/8
+
+Folio 007r/007v
+  Support    : paper, later repair
+  Script     : 'khyug-yig
+  Condition  : C
+  Dimensions : 20 x 10 cm
+  Photographed: 2024-12-11, window light, f/8
+
+Folio 008r/008v
+  Support    : birch bark, laminated
+  Script     : dbu-med
+  Condition  : D
+  Dimensions : 18 x 5 cm
+  Photographed: 2024-11-13, window light, f/8
+
+Folio 009r/009v
+  Support    : paper, later repair
+  Script     : 'khyug-yig
+  Condition  : A
+  Dimensions : 20 x 5 cm
+  Photographed: 2024-11-07, window light, f/8
+
+Folio 010r/010v
+  Support    : paper, later repair
+  Script     : dbu-can
+  Condition  : A
+  Dimensions : 30 x 10 cm
+  Photographed: 2024-12-14, window light, f/8
+
+Folio 011r/011v
+  Support    : birch bark, laminated
+  Script     : dbu-med
+  Condition  : A
+  Dimensions : 28 x 5 cm
+  Photographed: 2024-12-11, window light, f/8
+
+Folio 012r/012v
+  Support    : birch bark (bhojpatra)
+  Script     : Ranjana
+  Condition  : A
+  Dimensions : 22 x 6 cm
+  Photographed: 2024-11-01, window light, f/8
+
+Folio 013r/013v
+  Support    : paper, later repair
+  Script     : Ranjana
+  Condition  : A
+  Dimensions : 23 x 10 cm
+  Photographed: 2024-11-15, window light, f/8
+
+Folio 014r/014v
+  Support    : palm leaf
+  Script     : dbu-med
+  Condition  : B
+  Dimensions : 31 x 10 cm
+  Photographed: 2024-12-04, window light, f/8
+
+Folio 015r/015v
+  Support    : palm leaf
+  Script     : Ranjana
+  Condition  : B
+  Dimensions : 18 x 7 cm
+  Photographed: 2024-12-01, window light, f/8
+
+Folio 016r/016v
+  Support    : paper, later repair
+  Script     : dbu-med
+  Condition  : A
+  Dimensions : 21 x 5 cm
+  Photographed: 2024-11-07, window light, f/8
+
+Folio 017r/017v
+  Support    : birch bark (bhojpatra)
+  Script     : 'khyug-yig
+  Condition  : B
+  Dimensions : 28 x 11 cm
+  Photographed: 2024-12-13, window light, f/8
+
+Folio 018r/018v
+  Support    : birch bark (bhojpatra)
+  Script     : dbu-can
+  Condition  : A
+  Dimensions : 24 x 9 cm
+  Photographed: 2024-11-01, window light, f/8
+
+Folio 019r/019v
+  Support    : birch bark, laminated
+  Script     : 'khyug-yig
+  Condition  : B
+  Dimensions : 32 x 6 cm
+  Photographed: 2024-12-27, window light, f/8
+
+Folio 020r/020v
+  Support    : paper, later repair
+  Script     : dbu-med
+  Condition  : B
+  Dimensions : 23 x 10 cm
+  Photographed: 2024-11-10, window light, f/8
+
+Folio 021r/021v
+  Support    : palm leaf
+  Script     : dbu-med
+  Condition  : A
+  Dimensions : 23 x 10 cm
+  Photographed: 2024-11-22, window light, f/8
+
+Folio 022r/022v
+  Support    : birch bark (bhojpatra)
+  Script     : Ranjana
+  Condition  : B
+  Dimensions : 31 x 5 cm
+  Photographed: 2024-11-04, window light, f/8
+
+Folio 023r/023v
+  Support    : palm leaf
+  Script     : 'khyug-yig
+  Condition  : A
+  Dimensions : 30 x 7 cm
+  Photographed: 2024-12-27, window light, f/8
+
+Folio 024r/024v
+  Support    : birch bark, laminated
+  Script     : Ranjana
+  Condition  : B
+  Dimensions : 34 x 6 cm
+  Photographed: 2024-11-05, window light, f/8
+
+Folio 025r/025v
+  Support    : birch bark (bhojpatra)
+  Script     : Ranjana
+  Condition  : A
+  Dimensions : 26 x 6 cm
+  Photographed: 2024-11-24, window light, f/8
+
+Folio 026r/026v
+  Support    : birch bark, laminated
+  Script     : dbu-can
+  Condition  : A
+  Dimensions : 31 x 8 cm
+  Photographed: 2024-11-02, window light, f/8
+
+Folio 027r/027v
+  Support    : birch bark, laminated
+  Script     : dbu-med
+  Condition  : A
+  Dimensions : 29 x 9 cm
+  Photographed: 2024-11-03, window light, f/8
+
+Folio 028r/028v
+  Support    : paper, later repair
+  Script     : dbu-med
+  Condition  : A
+  Dimensions : 28 x 10 cm
+  Photographed: 2024-11-19, window light, f/8
+
+Folio 029r/029v
+  Support    : paper, later repair
+  Script     : dbu-can
+  Condition  : A
+  Dimensions : 29 x 10 cm
+  Photographed: 2024-12-02, window light, f/8
+
+Folio 030r/030v
+  Support    : paper, later repair
+  Script     : dbu-can
+  Condition  : A
+  Dimensions : 20 x 10 cm
+  Photographed: 2024-12-11, window light, f/8
+
+Folio 031r/031v
+  Support    : birch bark (bhojpatra)
+  Script     : dbu-can
+  Condition  : A
+  Dimensions : 32 x 9 cm
+  Photographed: 2024-12-24, window light, f/8
+
+Folio 032r/032v
+  Support    : birch bark, laminated
+  Script     : dbu-med
+  Condition  : A
+  Dimensions : 29 x 5 cm
+  Photographed: 2024-12-03, window light, f/8
+
+Folio 033r/033v
+  Support    : birch bark (bhojpatra)
+  Script     : Ranjana
+  Condition  : D
+  Dimensions : 33 x 9 cm
+  Photographed: 2024-11-20, window light, f/8
+
+Folio 034r/034v
+  Support    : paper, later repair
+  Script     : Ranjana
+  Condition  : C
+  Dimensions : 18 x 9 cm
+  Photographed: 2024-11-03, window light, f/8
+
+Folio 035r/035v
+  Support    : birch bark, laminated
+  Script     : dbu-can
+  Condition  : A
+  Dimensions : 31 x 10 cm
+  Photographed: 2024-12-13, window light, f/8
+
+Folio 036r/036v
+  Support    : paper, later repair
+  Script     : Ranjana
+  Condition  : C
+  Dimensions : 32 x 11 cm
+  Photographed: 2024-11-17, window light, f/8
+
+Folio 037r/037v
+  Support    : birch bark, laminated
+  Script     : dbu-can
+  Condition  : D
+  Dimensions : 20 x 8 cm
+  Photographed: 2024-11-08, window light, f/8
+
+Folio 038r/038v
+  Support    : paper, later repair
+  Script     : dbu-can
+  Condition  : C
+  Dimensions : 33 x 7 cm
+  Photographed: 2024-11-12, window light, f/8
+
+Folio 039r/039v
+  Support    : palm leaf
+  Script     : dbu-med
+  Condition  : A
+  Dimensions : 34 x 6 cm
+  Photographed: 2024-12-22, window light, f/8
+
+Folio 040r/040v
+  Support    : palm leaf
+  Script     : Ranjana
+  Condition  : B
+  Dimensions : 28 x 8 cm
+  Photographed: 2024-12-07, window light, f/8
+
+Folio 041r/041v
+  Support    : palm leaf
+  Script     : Ranjana
+  Condition  : C
+  Dimensions : 24 x 8 cm
+  Photographed: 2024-11-19, window light, f/8
+
+Folio 042r/042v
+  Support    : palm leaf
+  Script     : dbu-med
+  Condition  : A
+  Dimensions : 22 x 8 cm
+  Photographed: 2024-12-27, window light, f/8
+
+Folio 043r/043v
+  Support    : birch bark (bhojpatra)
+  Script     : dbu-can
+  Condition  : D
+  Dimensions : 26 x 11 cm
+  Photographed: 2024-11-04, window light, f/8
+
+Folio 044r/044v
+  Support    : birch bark, laminated
+  Script     : Ranjana
+  Condition  : B
+  Dimensions : 24 x 11 cm
+  Photographed: 2024-12-13, window light, f/8
+
+Folio 045r/045v
+  Support    : birch bark, laminated
+  Script     : Ranjana
+  Condition  : C
+  Dimensions : 32 x 7 cm
+  Photographed: 2024-11-27, window light, f/8
+
+Folio 046r/046v
+  Support    : birch bark (bhojpatra)
+  Script     : 'khyug-yig
+  Condition  : A
+  Dimensions : 26 x 9 cm
+  Photographed: 2024-12-10, window light, f/8
+
+Folio 047r/047v
+  Support    : palm leaf
+  Script     : dbu-can
+  Condition  : C
+  Dimensions : 30 x 8 cm
+  Photographed: 2024-11-01, window light, f/8
+
+Folio 048r/048v
+  Support    : palm leaf
+  Script     : 'khyug-yig
+  Condition  : D
+  Dimensions : 22 x 11 cm
+  Photographed: 2024-11-21, window light, f/8
+
+Folio 049r/049v
+  Support    : birch bark (bhojpatra)
+  Script     : Ranjana
+  Condition  : A
+  Dimensions : 29 x 5 cm
+  Photographed: 2024-11-07, window light, f/8
+
+Folio 050r/050v
+  Support    : birch bark, laminated
+  Script     : Ranjana
+  Condition  : D
+  Dimensions : 23 x 10 cm
+  Photographed: 2024-11-25, window light, f/8
+
+Folio 051r/051v
+  Support    : palm leaf
+  Script     : dbu-can
+  Condition  : B
+  Dimensions : 25 x 7 cm
+  Photographed: 2024-12-18, window light, f/8
+
+Folio 052r/052v
+  Support    : paper, later repair
+  Script     : dbu-med
+  Condition  : C
+  Dimensions : 25 x 5 cm
+  Photographed: 2024-12-24, window light, f/8
+
+Folio 053r/053v
+  Support    : paper, later repair
+  Script     : dbu-med
+  Condition  : B
+  Dimensions : 32 x 6 cm
+  Photographed: 2024-11-13, window light, f/8
+
+Folio 054r/054v
+  Support    : paper, later repair
+  Script     : 'khyug-yig
+  Condition  : B
+  Dimensions : 28 x 10 cm
+  Photographed: 2024-11-04, window light, f/8
+
+Folio 055r/055v
+  Support    : palm leaf
+  Script     : dbu-can
+  Condition  : C
+  Dimensions : 25 x 8 cm
+  Photographed: 2024-11-10, window light, f/8
+
+Folio 056r/056v
+  Support    : birch bark, laminated
+  Script     : 'khyug-yig
+  Condition  : B
+  Dimensions : 18 x 7 cm
+  Photographed: 2024-11-02, window light, f/8
+
+Folio 057r/057v
+  Support    : paper, later repair
+  Script     : 'khyug-yig
+  Condition  : B
+  Dimensions : 26 x 8 cm
+  Photographed: 2024-11-07, window light, f/8
+
+Folio 058r/058v
+  Support    : paper, later repair
+  Script     : dbu-can
+  Condition  : D
+  Dimensions : 19 x 6 cm
+  Photographed: 2024-12-22, window light, f/8
+
+Folio 059r/059v
+  Support    : paper, later repair
+  Script     : dbu-med
+  Condition  : D
+  Dimensions : 22 x 9 cm
+  Photographed: 2024-12-16, window light, f/8
+
+Folio 060r/060v
+  Support    : palm leaf
+  Script     : dbu-can
+  Condition  : B
+  Dimensions : 32 x 9 cm
+  Photographed: 2024-12-27, window light, f/8
+
+Folio 061r/061v
+  Support    : birch bark, laminated
+  Script     : dbu-med
+  Condition  : C
+  Dimensions : 27 x 10 cm
+  Photographed: 2024-12-28, window light, f/8
+
+Folio 062r/062v
+  Support    : birch bark, laminated
+  Script     : dbu-med
+  Condition  : D
+  Dimensions : 22 x 9 cm
+  Photographed: 2024-12-19, window light, f/8
+
+Folio 063r/063v
+  Support    : paper, later repair
+  Script     : dbu-med
+  Condition  : B
+  Dimensions : 21 x 9 cm
+  Photographed: 2024-11-20, window light, f/8
+
+Folio 064r/064v
+  Support    : birch bark (bhojpatra)
+  Script     : dbu-can
+  Condition  : B
+  Dimensions : 34 x 8 cm
+  Photographed: 2024-11-16, window light, f/8
+
+Folio 065r/065v
+  Support    : birch bark (bhojpatra)
+  Script     : dbu-med
+  Condition  : A
+  Dimensions : 32 x 8 cm
+  Photographed: 2024-12-09, window light, f/8
+
+Folio 066r/066v
+  Support    : paper, later repair
+  Script     : Ranjana
+  Condition  : A
+  Dimensions : 22 x 7 cm
+  Photographed: 2024-12-27, window light, f/8
+
+Folio 067r/067v
+  Support    : birch bark (bhojpatra)
+  Script     : 'khyug-yig
+  Condition  : B
+  Dimensions : 24 x 8 cm
+  Photographed: 2024-11-09, window light, f/8
+
+Folio 068r/068v
+  Support    : birch bark (bhojpatra)
+  Script     : dbu-can
+  Condition  : A
+  Dimensions : 24 x 6 cm
+  Photographed: 2024-11-01, window light, f/8
+
+Folio 069r/069v
+  Support    : birch bark, laminated
+  Script     : 'khyug-yig
+  Condition  : C
+  Dimensions : 29 x 6 cm
+  Photographed: 2024-12-04, window light, f/8
+
+Folio 070r/070v
+  Support    : birch bark, laminated
+  Script     : dbu-can
+  Condition  : B
+  Dimensions : 24 x 10 cm
+  Photographed: 2024-12-01, window light, f/8
+
+Folio 071r/071v
+  Support    : palm leaf
+  Script     : Ranjana
+  Condition  : B
+  Dimensions : 24 x 11 cm
+  Photographed: 2024-11-17, window light, f/8
+
+Folio 072r/072v
+  Support    : palm leaf
+  Script     : dbu-med
+  Condition  : A
+  Dimensions : 29 x 6 cm
+  Photographed: 2024-12-20, window light, f/8
+
+Folio 073r/073v
+  Support    : palm leaf
+  Script     : dbu-med
+  Condition  : A
+  Dimensions : 24 x 5 cm
+  Photographed: 2024-11-08, window light, f/8
+
+Folio 074r/074v
+  Support    : birch bark, laminated
+  Script     : dbu-can
+  Condition  : A
+  Dimensions : 30 x 5 cm
+  Photographed: 2024-12-27, window light, f/8
+
+Folio 075r/075v
+  Support    : palm leaf
+  Script     : dbu-med
+  Condition  : B
+  Dimensions : 30 x 10 cm
+  Photographed: 2024-11-04, window light, f/8
+
+Folio 076r/076v
+  Support    : birch bark, laminated
+  Script     : 'khyug-yig
+  Condition  : A
+  Dimensions : 21 x 10 cm
+  Photographed: 2024-12-17, window light, f/8
+
+Folio 077r/077v
+  Support    : birch bark (bhojpatra)
+  Script     : dbu-med
+  Condition  : C
+  Dimensions : 33 x 5 cm
+  Photographed: 2024-11-02, window light, f/8
+
+Folio 078r/078v
+  Support    : palm leaf
+  Script     : Ranjana
+  Condition  : D
+  Dimensions : 24 x 6 cm
+  Photographed: 2024-11-07, window light, f/8
+
+Folio 079r/079v
+  Support    : birch bark, laminated
+  Script     : dbu-med
+  Condition  : A
+  Dimensions : 21 x 9 cm
+  Photographed: 2024-11-05, window light, f/8
+
+Folio 080r/080v
+  Support    : birch bark (bhojpatra)
+  Script     : Ranjana
+  Condition  : C
+  Dimensions : 21 x 7 cm
+  Photographed: 2024-12-15, window light, f/8
+
+Folio 081r/081v
+  Support    : paper, later repair
+  Script     : 'khyug-yig
+  Condition  : B
+  Dimensions : 24 x 9 cm
+  Photographed: 2024-12-01, window light, f/8
+
+Folio 082r/082v
+  Support    : palm leaf
+  Script     : dbu-can
+  Condition  : C
+  Dimensions : 23 x 8 cm
+  Photographed: 2024-12-12, window light, f/8
+
+Folio 083r/083v
+  Support    : paper, later repair
+  Script     : 'khyug-yig
+  Condition  : C
+  Dimensions : 24 x 9 cm
+  Photographed: 2024-11-04, window light, f/8
+
+Folio 084r/084v
+  Support    : birch bark, laminated
+  Script     : dbu-can
+  Condition  : B
+  Dimensions : 20 x 11 cm
+  Photographed: 2024-12-19, window light, f/8
+
+Folio 085r/085v
+  Support    : birch bark, laminated
+  Script     : dbu-med
+  Condition  : B
+  Dimensions : 26 x 7 cm
+  Photographed: 2024-11-24, window light, f/8
+
+Folio 086r/086v
+  Support    : paper, later repair
+  Script     : dbu-med
+  Condition  : C
+  Dimensions : 22 x 7 cm
+  Photographed: 2024-12-25, window light, f/8
+
+Folio 087r/087v
+  Support    : paper, later repair
+  Script     : dbu-med
+  Condition  : B
+  Dimensions : 24 x 10 cm
+  Photographed: 2024-11-03, window light, f/8
+
+Folio 088r/088v
+  Support    : birch bark, laminated
+  Script     : 'khyug-yig
+  Condition  : D
+  Dimensions : 33 x 5 cm
+  Photographed: 2024-11-12, window light, f/8
+
+Folio 089r/089v
+  Support    : palm leaf
+  Script     : dbu-can
+  Condition  : C
+  Dimensions : 26 x 10 cm
+  Photographed: 2024-12-11, window light, f/8
+
+Folio 090r/090v
+  Support    : palm leaf
+  Script     : Ranjana
+  Condition  : A
+  Dimensions : 20 x 8 cm
+  Photographed: 2024-12-21, window light, f/8
+
+Folio 091r/091v
+  Support    : paper, later repair
+  Script     : dbu-can
+  Condition  : A
+  Dimensions : 18 x 5 cm
+  Photographed: 2024-11-24, window light, f/8
+
+Folio 092r/092v
+  Support    : paper, later repair
+  Script     : 'khyug-yig
+  Condition  : A
+  Dimensions : 30 x 9 cm
+  Photographed: 2024-11-25, window light, f/8
+
+Folio 093r/093v
+  Support    : birch bark (bhojpatra)
+  Script     : Ranjana
+  Condition  : A
+  Dimensions : 21 x 7 cm
+  Photographed: 2024-12-09, window light, f/8
+
+Folio 094r/094v
+  Support    : birch bark (bhojpatra)
+  Script     : Ranjana
+  Condition  : A
+  Dimensions : 32 x 11 cm
+  Photographed: 2024-11-18, window light, f/8
+
+Folio 095r/095v
+  Support    : paper, later repair
+  Script     : dbu-can
+  Condition  : B
+  Dimensions : 23 x 8 cm
+  Photographed: 2024-12-06, window light, f/8
+
+Folio 096r/096v
+  Support    : birch bark (bhojpatra)
+  Script     : Ranjana
+  Condition  : D
+  Dimensions : 31 x 8 cm
+  Photographed: 2024-12-10, window light, f/8
+
+Folio 097r/097v
+  Support    : birch bark, laminated
+  Script     : Ranjana
+  Condition  : B
+  Dimensions : 29 x 9 cm
+  Photographed: 2024-12-16, window light, f/8
+
+Folio 098r/098v
+  Support    : birch bark, laminated
+  Script     : 'khyug-yig
+  Condition  : C
+  Dimensions : 27 x 5 cm
+  Photographed: 2024-11-25, window light, f/8
+
+Folio 099r/099v
+  Support    : palm leaf
+  Script     : dbu-can
+  Condition  : A
+  Dimensions : 31 x 11 cm
+  Photographed: 2024-12-02, window light, f/8
+
+Folio 100r/100v
+  Support    : birch bark (bhojpatra)
+  Script     : Ranjana
+  Condition  : A
+  Dimensions : 28 x 5 cm
+  Photographed: 2024-11-14, window light, f/8
+
+Folio 101r/101v
+  Support    : birch bark, laminated
+  Script     : Ranjana
+  Condition  : C
+  Dimensions : 25 x 5 cm
+  Photographed: 2024-11-26, window light, f/8
+
+Folio 102r/102v
+  Support    : palm leaf
+  Script     : Ranjana
+  Condition  : C
+  Dimensions : 25 x 9 cm
+  Photographed: 2024-11-02, window light, f/8
+
+Folio 103r/103v
+  Support    : paper, later repair
+  Script     : Ranjana
+  Condition  : B
+  Dimensions : 21 x 6 cm
+  Photographed: 2024-11-12, window light, f/8
+
+Folio 104r/104v
+  Support    : birch bark (bhojpatra)
+  Script     : dbu-med
+  Condition  : B
+  Dimensions : 29 x 8 cm
+  Photographed: 2024-11-22, window light, f/8
+
+Folio 105r/105v
+  Support    : birch bark, laminated
+  Script     : Ranjana
+  Condition  : B
+  Dimensions : 31 x 7 cm
+  Photographed: 2024-11-10, window light, f/8
+
+Folio 106r/106v
+  Support    : palm leaf
+  Script     : dbu-med
+  Condition  : C
+  Dimensions : 33 x 5 cm
+  Photographed: 2024-12-26, window light, f/8
+
+Folio 107r/107v
+  Support    : birch bark, laminated
+  Script     : 'khyug-yig
+  Condition  : B
+  Dimensions : 26 x 9 cm
+  Photographed: 2024-11-21, window light, f/8
+
+Folio 108r/108v
+  Support    : palm leaf
+  Script     : dbu-med
+  Condition  : A
+  Dimensions : 25 x 9 cm
+  Photographed: 2024-11-22, window light, f/8
+
+Folio 109r/109v
+  Support    : birch bark (bhojpatra)
+  Script     : dbu-can
+  Condition  : A
+  Dimensions : 26 x 7 cm
+  Photographed: 2024-12-01, window light, f/8
+
+Folio 110r/110v
+  Support    : birch bark (bhojpatra)
+  Script     : dbu-can
+  Condition  : B
+  Dimensions : 25 x 9 cm
+  Photographed: 2024-12-03, window light, f/8
+
+Folio 111r/111v
+  Support    : palm leaf
+  Script     : dbu-can
+  Condition  : D
+  Dimensions : 25 x 10 cm
+  Photographed: 2024-12-16, window light, f/8
+
+Folio 112r/112v
+  Support    : palm leaf
+  Script     : 'khyug-yig
+  Condition  : B
+  Dimensions : 28 x 7 cm
+  Photographed: 2024-12-24, window light, f/8
+
+Folio 113r/113v
+  Support    : birch bark (bhojpatra)
+  Script     : dbu-can
+  Condition  : A
+  Dimensions : 32 x 11 cm
+  Photographed: 2024-11-15, window light, f/8
+
+Folio 114r/114v
+  Support    : paper, later repair
+  Script     : 'khyug-yig
+  Condition  : B
+  Dimensions : 22 x 7 cm
+  Photographed: 2024-11-21, window light, f/8
+
+Folio 115r/115v
+  Support    : birch bark, laminated
+  Script     : 'khyug-yig
+  Condition  : D
+  Dimensions : 23 x 8 cm
+  Photographed: 2024-12-19, window light, f/8
+
+Folio 116r/116v
+  Support    : birch bark, laminated
+  Script     : Ranjana
+  Condition  : A
+  Dimensions : 20 x 9 cm
+  Photographed: 2024-11-14, window light, f/8
+
+Folio 117r/117v
+  Support    : paper, later repair
+  Script     : Ranjana
+  Condition  : B
+  Dimensions : 27 x 11 cm
+  Photographed: 2024-11-03, window light, f/8
+
+Folio 118r/118v
+  Support    : birch bark (bhojpatra)
+  Script     : dbu-med
+  Condition  : A
+  Dimensions : 27 x 8 cm
+  Photographed: 2024-12-10, window light, f/8
+
+Folio 119r/119v
+  Support    : birch bark, laminated
+  Script     : dbu-med
+  Condition  : A
+  Dimensions : 28 x 7 cm
+  Photographed: 2024-11-11, window light, f/8
+
+Folio 120r/120v
+  Support    : birch bark, laminated
+  Script     : Ranjana
+  Condition  : C
+  Dimensions : 32 x 9 cm
+  Photographed: 2024-12-15, window light, f/8

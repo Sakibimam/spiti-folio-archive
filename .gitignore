@@ -1,0 +1,17 @@
+# ── Secrets. Nothing here is ever committed. ──────────────────────────────
+.env
+.env.local
+*.key
+identity.json
+publisher.key
+
+# The gift code lives in Swarm Desktop and nowhere else.
+giftcode*
+*.mnemonic
+
+# ── Build / runtime ───────────────────────────────────────────────────────
+node_modules/
+dist/
+restored/
+*.log
+.DS_Store

@@ -1,0 +1,15 @@
+{
+  "archive": "Spiti Valley birch-bark folio scans",
+  "feed": {
+    "owner": "da99a7d6955e279a45758141990fde3102719ca1",
+    "topicString": "spiti-folio-archive-v1",
+    "topicHex": "6b40a2f9f41706c4a970ab110d94445e03833d888184bb61cee98320891d90e0",
+    "manifest": null
+  },
+  "latest": null,
+  "storage": null,
+  "read": {
+    "gateway": null,
+    "withThisRepo": "npm run recover -- --owner da99a7d6955e279a45758141990fde3102719ca1 --topic \"spiti-folio-archive-v1\" --out ./restored"
+  }
+}

@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Spiti Folio Archive</title>
+<style>
+  :root{
+    --bg:#f6f4ef; --panel:#fffdf8; --ink:#241f1a; --muted:#6d6459;
+    --line:#ded6c8; --accent:#7a5c34; --ok:#2f6b3f; --warn:#8a5a12; --bad:#8f2f24;
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --bg:#17150f; --panel:#201d16; --ink:#efe8dc; --muted:#a99e8c;
+      --line:#3a342a; --accent:#d3ab74; --ok:#7fc08f; --warn:#e0b25f; --bad:#e08a7e;
+      color-scheme:dark;
+    }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:15px/1.6 ui-serif,Georgia,"Times New Roman",serif;padding:0 16px 64px}
+  .wrap{max-width:820px;margin:0 auto}
+  header{padding:40px 0 22px;border-bottom:1px solid var(--line)}
+  h1{margin:0 0 6px;font-size:1.65rem;letter-spacing:-.01em}
+  .sub{color:var(--muted);margin:0;font-size:.95rem}
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.82rem;word-break:break-all}
+  form{display:grid;gap:10px;margin:22px 0;padding:16px;background:var(--panel);
+    border:1px solid var(--line);border-radius:10px}
+  label{font-size:.78rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+  input{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:6px;
+    background:var(--bg);color:var(--ink);font-family:ui-monospace,Menlo,monospace;font-size:.82rem}
+  button{padding:10px 18px;border:0;border-radius:6px;background:var(--accent);
+    color:#fff;font-size:.9rem;cursor:pointer;font-family:inherit}
+  button:disabled{opacity:.5;cursor:default}
+  .banner{margin:22px 0;padding:14px 16px;border-radius:10px;border:1px solid var(--line);
+    background:var(--panel);border-left-width:4px}
+  .banner h2{margin:0 0 6px;font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+  .banner p{margin:0;font-size:1.02rem}
+  .ok{border-left-color:var(--ok)} .warn{border-left-color:var(--warn)} .bad{border-left-color:var(--bad)}
+  table{width:100%;border-collapse:collapse;margin-top:10px}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);font-size:.88rem}
+  th{font-size:.72rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:600}
+  td.num{text-align:right;font-variant-numeric:tabular-nums;color:var(--muted)}
+  a{color:var(--accent)}
+  .scroll{overflow-x:auto}
+  .status{color:var(--muted);font-size:.9rem;margin:18px 0}
+  footer{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);
+    color:var(--muted);font-size:.83rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>Spiti Folio Archive</h1>
+  <p class="sub">Birch-bark and palm-leaf manuscripts, photographed above the Spiti valley.
+     Resolved live from a Swarm feed — no server, no account, no database.</p>
+</header>
+
+<form id="f">
+  <div><label for="gw">Bee endpoint or gateway</label>
+    <input id="gw" value="https://api.gateway.ethswarm.org"></div>
+  <div><label for="owner">Feed owner</label>
+    <input id="owner" value="da99a7d6955e279a45758141990fde3102719ca1"></div>
+  <div><label for="topic">Topic (hex)</label>
+    <input id="topic" value="6b40a2f9f41706c4a970ab110d94445e03833d888184bb61cee98320891d90e0"></div>
+  <div><button id="go" type="submit">Resolve archive</button></div>
+</form>
+
+<p class="status" id="status">Press “Resolve archive” to read the feed.</p>
+<div id="out" hidden>
+  <div class="banner" id="ttl">
+    <h2>How long this data is paid for</h2>
+    <p id="ttlText">—</p>
+  </div>
+  <div class="banner">
+    <h2>Current contents</h2>
+    <p class="mono" id="ref">—</p>
+  </div>
+  <div class="scroll"><table>
+    <thead><tr><th>File</th><th class="num">Size</th><th class="num">sha256</th></tr></thead>
+    <tbody id="rows"></tbody>
+  </table></div>
+</div>
+
+<footer>
+  The address above is a feed: the owner and topic never change, while the
+  content hash behind them does. Swarm storage is prepaid — the expiry date is
+  read from the archive’s own inventory, not assumed.
+</footer>
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const fmt = (n) => n < 1024 ? n + " B"
+  : n < 1048576 ? (n/1024).toFixed(1) + " KB" : (n/1048576).toFixed(1) + " MB";
+
+async function resolveFeed(gw, owner, topic) {
+  const url = `${gw.replace(/\/$/, "")}/feeds/${owner.replace(/^0x/, "")}/${topic.replace(/^0x/, "")}?type=sequence`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`feed lookup failed (HTTP ${res.status}) — the feed may have no updates yet`);
+  const body = await res.json();
+  const ref = body.reference || body.feedIndex && body.reference;
+  if (!ref) throw new Error("feed responded but carried no reference");
+  return typeof ref === "string" ? ref : ref.reference;
+}
+
+function renderTtl(storage) {
+  const box = $("ttl"), text = $("ttlText");
+  box.className = "banner";
+  if (!storage || !storage.paidUntil) {
+    box.classList.add("warn");
+    text.textContent = "This archive did not publish an expiry date. Treat it as unfunded.";
+    return;
+  }
+  const until = new Date(storage.paidUntil);
+  const days = (until - Date.now()) / 86400000;
+  box.classList.add(days <= 0 ? "bad" : days < 14 ? "warn" : "ok");
+  text.textContent = days <= 0
+    ? `EXPIRED on ${until.toISOString().slice(0,10)}. The postage batch is no longer funded; these chunks may already be gone.`
+    : `Paid until ${until.toISOString().slice(0,10)} — ${days.toFixed(1)} days left. After that the batch expires and this address stops resolving unless it is topped up.`;
+}
+
+$("f").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  $("go").disabled = true;
+  $("out").hidden = true;
+  $("status").textContent = "Resolving feed…";
+  const gw = $("gw").value.trim().replace(/\/$/, "");
+  try {
+    const ref = await resolveFeed(gw, $("owner").value.trim(), $("topic").value.trim());
+    $("status").textContent = "Reading inventory…";
+    const inv = await (await fetch(`${gw}/bzz/${ref}/index.json`)).json();
+    $("ref").textContent = ref;
+    renderTtl(inv.storage);
+    $("rows").innerHTML = "";
+    for (const f of inv.files || []) {
+      const tr = document.createElement("tr");
+      const a = document.createElement("a");
+      a.href = `${gw}/bzz/${ref}/${f.path}`;
+      a.textContent = f.path;
+      a.target = "_blank"; a.rel = "noopener";
+      const td = document.createElement("td"); td.appendChild(a);
+      tr.appendChild(td);
+      const s = document.createElement("td"); s.className = "num"; s.textContent = fmt(f.bytes);
+      const h = document.createElement("td"); h.className = "num mono"; h.textContent = (f.sha256||"").slice(0,10);
+      tr.appendChild(s); tr.appendChild(h);
+      $("rows").appendChild(tr);
+    }
+    $("status").textContent = `${(inv.files||[]).length} files, published ${inv.publishedAt || "—"}.`;
+    $("out").hidden = false;
+  } catch (err) {
+    $("status").textContent = "Could not read the archive: " + err.message;
+  } finally {
+    $("go").disabled = false;
+  }
+});
+</script>
+</body>
+</html>
