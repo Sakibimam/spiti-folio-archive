@@ -13,7 +13,8 @@
     "recover": "tsx src/recover.ts",
     "status": "tsx src/status.ts",
     "typecheck": "tsc --noEmit",
-    "extend": "tsx src/extend.ts"
+    "extend": "tsx src/extend.ts",
+    "verify": "tsx src/verify.ts"
   },
   "dependencies": {
     "@ethersphere/bee-js": "13.1.0"

@@ -182,6 +182,35 @@ mid-project. For a genuinely final deposit, an immutable batch with a long
 
 ---
 
+## Verify it yourself
+
+```bash
+npm run verify                                        # against your own node
+npm run verify -- --bee https://api.gateway.ethswarm.org   # as a stranger would
+```
+
+It resolves the published address, re-reads the archive by owner + topic the
+way `recover.ts` does, and checks every folio byte-for-byte against the sha256
+digests published inside the archive. Last run against the public gateway:
+**12 passed, 0 failed** (the batch-lifetime check skips there, because a public
+gateway does not expose `/stamps`).
+
+### A bug this test found
+
+`viewer.html` used to resolve the archive with `GET /feeds/{owner}/{topic}`.
+That does not work from a browser, for two reasons worth writing down:
+
+- The endpoint **dereferences the feed and returns the stored bytes**, not a
+  `{"reference": "..."}` envelope. This feed points at a collection manifest,
+  so the body is binary and `JSON.parse` throws.
+- The reference is in the `ETag` header, but `ETag` is not CORS-safelisted and
+  Bee does not list it in `Access-Control-Expose-Headers`, so cross-origin
+  JavaScript cannot read it either.
+
+The viewer now resolves through the **feed manifest** instead, which Bee
+resolves server-side: `{gateway}/bzz/{manifest}/index.json`. Verified on both a
+local node and the public gateway.
+
 ## Design
 
 ```

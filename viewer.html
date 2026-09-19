@@ -60,10 +60,8 @@
 <form id="f">
   <div><label for="gw">Bee endpoint or gateway</label>
     <input id="gw" placeholder="https://api.gateway.ethswarm.org"></div>
-  <div><label for="owner">Feed owner</label>
-    <input id="owner" placeholder="0x…"></div>
-  <div><label for="topic">Topic (hex, or the topic string)</label>
-    <input id="topic" placeholder="topic"></div>
+  <div><label for="manifest">Feed manifest</label>
+    <input id="manifest" placeholder="…"></div>
   <div><button id="go" type="submit">Resolve archive</button></div>
 </form>
 
@@ -146,27 +144,45 @@ async function bootRepository() {
     const cfg = await (await fetch("./archive.json", { cache: "no-store" })).json();
     $("gw").value = (cfg.read && cfg.read.gateway ? new URL(cfg.read.gateway).origin : "")
       || "https://api.gateway.ethswarm.org";
-    $("owner").value = (cfg.feed && cfg.feed.owner) || "";
-    $("topic").value = (cfg.feed && (cfg.feed.topicHex || cfg.feed.topicString)) || "";
-    $("status").textContent = cfg.feed && cfg.feed.owner
-      ? "Press \u201cResolve archive\u201d to read the feed."
-      : "archive.json has no owner yet \u2014 run `npm run init`.";
+    $("manifest").value = (cfg.feed && cfg.feed.manifest) || "";
+    if (cfg.feed && cfg.feed.owner) {
+      $("addrRow").hidden = false;
+      $("addrOwner").textContent = cfg.feed.owner;
+      $("addrTopic").textContent = cfg.feed.topicString || cfg.feed.topicHex || "\u2014";
+    }
+    $("status").textContent = cfg.feed && cfg.feed.manifest
+      ? "Press \u201cResolve archive\u201d to read the archive."
+      : "archive.json has no feed manifest yet \u2014 run `npm run publish`.";
   } catch {
     $("gw").value = "https://api.gateway.ethswarm.org";
     $("status").textContent =
       "Could not read archive.json (serve this over http, not file://). "
-      + "Enter an owner and topic by hand.";
+      + "Enter a feed manifest by hand.";
   }
 }
 
-async function resolveFeed(gw, owner, topic) {
-  const url = `${gw.replace(/\/$/, "")}/feeds/${owner.replace(/^0x/, "")}/${topic.replace(/^0x/, "")}?type=sequence`;
-  const res = await fetch(url);
-  if (!res.ok) throw new Error(`feed lookup failed (HTTP ${res.status}) \u2014 the feed may have no updates yet`);
-  const body = await res.json();
-  const ref = body.reference;
-  if (!ref) throw new Error("feed responded but carried no reference");
-  return typeof ref === "string" ? ref : ref.reference;
+/**
+ * Resolve the archive through its FEED MANIFEST.
+ *
+ * The obvious-looking route, GET /feeds/{owner}/{topic}, does not work from a
+ * browser here, and it is worth writing down why rather than rediscovering it:
+ *
+ *   - That endpoint dereferences the feed and returns the STORED BYTES, not a
+ *     {"reference": "..."} envelope. For this archive the feed points at a
+ *     collection manifest, so the body is binary and JSON.parse throws.
+ *   - The reference is in the ETag header, but ETag is not CORS-safelisted and
+ *     Bee does not list it in Access-Control-Expose-Headers, so cross-origin
+ *     JavaScript cannot read it either.
+ *
+ * The feed manifest sidesteps both. A bzz request against it resolves the feed
+ * server-side and serves the current collection, so paths just work:
+ *
+ *     {gateway}/bzz/{manifest}/index.json
+ *
+ * Verified against a local Bee node and the public gateway.
+ */
+function manifestBase(gw, manifest) {
+  return `${gw.replace(/\/$/, "")}/bzz/${manifest.replace(/^0x/, "")}`;
 }
 
 function renderTtl(storage) {
@@ -205,17 +221,31 @@ $("f").addEventListener("submit", async (e) => {
   e.preventDefault();
   $("go").disabled = true;
   $("out").hidden = true;
-  $("status").textContent = "Resolving feed\u2026";
+  $("status").textContent = "Resolving archive\u2026";
   const gw = $("gw").value.trim().replace(/\/$/, "");
+  const manifest = $("manifest").value.trim();
+  if (!manifest) {
+    $("status").textContent = "Enter the feed manifest to resolve.";
+    $("go").disabled = false;
+    return;
+  }
+  const base = manifestBase(gw, manifest);
   try {
-    const ref = await resolveFeed(gw, $("owner").value.trim(), $("topic").value.trim());
-    $("status").textContent = "Reading inventory\u2026";
-    const inv = await (await fetch(`${gw}/bzz/${ref}/index.json`)).json();
-    $("ref").textContent = ref;
+    const res = await fetch(`${base}/index.json`);
+    if (res.status === 404) throw new Error("nothing published at this address yet");
+    if (!res.ok) throw new Error(`index.json returned HTTP ${res.status}`);
+    const inv = await res.json();
+    $("ref").textContent = manifest;
     $("refRow").hidden = false;
     renderTtl(inv.storage);
-    renderFiles(inv, `${gw}/bzz/${ref}/`);
-    $("status").textContent = `${(inv.files||[]).length} folios \u00b7 published ${(inv.publishedAt || "").slice(0,10) || "\u2014"}`;
+    if (inv.feed) {
+      $("addrRow").hidden = false;
+      $("addrOwner").textContent = inv.feed.owner || "\u2014";
+      $("addrTopic").textContent = inv.feed.topicString || "\u2014";
+    }
+    renderFiles(inv, `${base}/`);
+    $("status").textContent =
+      `${(inv.files||[]).length} folios \u00b7 published ${(inv.publishedAt || "").slice(0,10) || "\u2014"}`;
     $("out").hidden = false;
   } catch (err) {
     $("status").textContent = "Could not read the archive: " + err.message;
