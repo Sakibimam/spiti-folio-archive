@@ -50,8 +50,23 @@ what to do with — it opens a browsable page listing every folio, with the expi
 stated at the top:
 
 ```
-https://api.gateway.ethswarm.org/bzz/<feed-manifest>/
+http://localhost:1633/bzz/<feed-manifest>/
 ```
+
+**A caveat, measured rather than assumed.** On your own Bee node (or Swarm
+Desktop) that URL returns the page and it renders. On the *public* gateway at
+`api.gateway.ethswarm.org` it does not: the gateway redirects HTML documents to
+`bzz.link/forbidden` as an anti-phishing measure, so the viewer will not render
+there. Every folio still downloads from the public gateway perfectly —
+
+```
+https://api.gateway.ethswarm.org/bzz/<feed-manifest>/catalogue.txt   # 200, exact bytes
+https://api.gateway.ethswarm.org/bzz/<feed-manifest>/index.json      # 200, the inventory
+```
+
+— so a stranger with no node still recovers the whole archive via `npm run
+recover`, and a stranger with a node gets the page as well. The data is never
+the thing that is blocked; only HTML rendering on that one host is.
 
 That page detects where it is running. Served from inside the archive it reads
 the `index.json` sitting next to it and needs no gateway, no feed lookup and no
