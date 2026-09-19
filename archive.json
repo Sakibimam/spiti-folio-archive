@@ -7,16 +7,16 @@
     "manifest": "9412075d03456cc6c8efe6043451fa817eb8715ec5115c2136152a446d3e72b3"
   },
   "latest": {
-    "index": 2,
-    "collectionReference": "71cabf1cb6c2df00ed47811104980a027a2eabe60036b2744a66d80ed9c8f71c",
-    "publishedAt": "2026-09-19T02:48:02.277Z",
+    "index": 3,
+    "collectionReference": "7c160789d86faddb70aa59b56bef9674d0668b60b56ebff50992d4a6fb3cf29a",
+    "publishedAt": "2026-09-19T03:25:13.099Z",
     "fileCount": 8,
     "totalBytes": 26847
   },
   "storage": {
     "batchId": "4f3c7b302c2c22850df26ceda4f417f8cf849a81fd183ba85afe4f21c406f8aa",
-    "paidUntil": "2026-09-27T22:16:31.257Z",
-    "daysRemainingAtPublish": 8.81,
+    "paidUntil": "2026-09-27T22:10:15.086Z",
+    "daysRemainingAtPublish": 8.78,
     "warning": "Swarm storage is prepaid, not permanent. After paidUntil the postage batch expires and these chunks stop being served. Top the batch up to extend it."
   },
   "read": {
